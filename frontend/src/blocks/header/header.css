@@ -1,0 +1,22 @@
+.header {
+  display: flex;
+  max-width: 880px;
+  margin: 0 auto 40px;
+  padding-top: 45px;
+  overflow: hidden;
+
+  border-bottom: 1px solid rgba(84, 84, 84, 0.7);
+}
+
+@media (min-width: 623px) and (max-width: 914px) {
+  .header {
+    max-width: 590px;
+  }
+}
+
+@media (min-width: 320px) and (max-width: 622px) {
+  .header {
+    margin: 0 auto 42px;
+    padding-top: 28px;
+  }
+}

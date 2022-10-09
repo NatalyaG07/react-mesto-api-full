@@ -1,0 +1,6 @@
+.popup__group {
+  background-color: rgba(0, 0, 0, 0);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
