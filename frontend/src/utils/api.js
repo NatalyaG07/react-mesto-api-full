@@ -6,7 +6,8 @@
 
   //Загрузка информации о пользователе с сервера
   getUserInfo() { 
-    return fetch(`${this._baseUrl}/users/me`, { 
+    return fetch(`${this._baseUrl}/users/me`, {
+      credentials: "include",
       method: 'GET',
       headers: this._headers
     })
@@ -17,6 +18,7 @@
   //Загрузка карточек с сервера
   getInitialCards() {
     return fetch(`${this._baseUrl}/cards`, {
+      credentials: "include",
       method: 'GET',
       headers: this._headers
     })
@@ -27,6 +29,7 @@
   //Редактирование профиля
   editProfile(data) {
     return fetch(`${this._baseUrl}/users/me`, {
+      credentials: "include",
       method: 'PATCH',
       headers: this._headers,
       body: JSON.stringify({
@@ -41,6 +44,7 @@
   //Добавление новой карточки
   addCard(data) {
     return fetch(`${this._baseUrl}/cards`, {
+      credentials: "include",
       method: 'POST',
       headers: this._headers,
       body: JSON.stringify({
@@ -55,6 +59,7 @@
   //Удаление карточки
   removeCard(cardId) {
     return fetch(`${this._baseUrl}/cards/${cardId}`, {
+      credentials: "include",
       method: 'DELETE',
       headers: this._headers
     })
@@ -65,6 +70,7 @@
   changeLikeCardStatus(cardId, isLiked) {
     return fetch(`${this._baseUrl}/cards/${cardId}/likes`, {
       method:(isLiked ? 'PUT' : 'DELETE'),
+      credentials: "include",
       headers: this._headers,
     })
 
@@ -75,6 +81,7 @@
   editAvatar(data) {
     return fetch(`${this._baseUrl}/users/me/avatar`, {
       method: 'PATCH',  
+      credentials: "include",
       headers: this._headers,
       body: JSON.stringify({
         avatar: data.avatar
@@ -95,7 +102,7 @@
 }
 
 export const api = new Api({
-  baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-44',
+  baseUrl: 'http://api.mesto.natalya.g.nomoredomains.icu',
   headers: {
     authorization: '0cca389c-2bfe-4c54-84e5-257b0da00bfb',
     'Content-Type': 'application/json'
