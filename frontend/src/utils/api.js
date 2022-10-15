@@ -102,7 +102,7 @@
 }
 
 export const api = new Api({
-  baseUrl: 'http://api.mesto.natalya.g.nomoredomains.icu',
+  baseUrl: 'https://api.mesto.natalya.g.nomoredomains.icu',
   headers: {
     authorization: '0cca389c-2bfe-4c54-84e5-257b0da00bfb',
     'Content-Type': 'application/json'
