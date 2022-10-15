@@ -8,3 +8,5 @@ IP 62.84.114.170
 Frontend https://mesto.natalya.g.nomoredomains.icu
 
 Backend https://api.mesto.natalya.g.nomoredomains.icu
+
+Ссылка на репозиторий проекта: https://github.com/NatalyaG07/react-mesto-api-full
