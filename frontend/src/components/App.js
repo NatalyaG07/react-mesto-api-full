@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Route, Switch, useHistory, Redirect } from 'react-router-dom';
+import { Route, Switch, useHistory} from 'react-router-dom';
 import "../index.css";
 import { api } from "../utils/api";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
@@ -29,6 +29,7 @@ function App() {
   const [userEmail, setUserEmail] = useState("");
   const [isInfoTooltipPopupOpen, setIsInfoTooltip] = useState(false);
   const [serviceResponse, setServiceResponse] = useState(false);
+  const token = localStorage.getItem('jwt');
 
   const history = useHistory();
 
@@ -62,16 +63,27 @@ function App() {
   }
 
   useEffect(() => {
-    if(loggedIn) {
+    const token = localStorage.getItem('jwt');
+    if (token) {
       api
-      .getUserInfo()
-      .then((userData) => {
-        setCurrentUser(userData.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
+      .getUserInfo(token)
+        .then(userData => {
+          setCurrentUser(userData.data);
+        })
+        .catch((err) => console.log(err));
+      }
+    // if(loggedIn) {
+    //   // history.push("/");
+    //   api
+    //   .getUserInfo(token)
+    //   .then((userData) => {
+    //     console.log(userData);
+    //     setCurrentUser(userData.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // }
   }, [loggedIn]);
 
   function handleUpdateUser({ name, about: description }) {
@@ -79,7 +91,7 @@ function App() {
       .editProfile({
         name,
         about: description,
-      })
+      }, token )
       .then((updateUser) => {
         setCurrentUser(updateUser.data);
         closeAllPopups();
@@ -91,7 +103,7 @@ function App() {
 
   function handleUpdateAvatar({ avatar }) {
     api
-      .editAvatar({ avatar })
+      .editAvatar({ avatar }, token)
       .then((updateUser) => {
         setCurrentUser(updateUser.data);
         closeAllPopups();
@@ -102,16 +114,26 @@ function App() {
   }
 
   useEffect(() => {
-    if(loggedIn) {
-      api
-      .getInitialCards()
-      .then((cards) => {
-        setCards(cards.data);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-    }
+    const token = localStorage.getItem('jwt');
+      if (token) {
+        api
+        .getInitialCards(token)
+          .then(cards => {
+            setCards(cards.data); 
+          })
+          .catch((err) => console.log(err));
+        }
+    // if(loggedIn) {
+    //   // history.push("/");
+    //   api
+    //   .getInitialCards()
+    //   .then((cards) => {
+    //     setCards(cards.data);
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
+    // }
   }, [loggedIn]);
 
   function handleCardLike(card) {
@@ -120,7 +142,7 @@ function App() {
 
     // Отправляем запрос в API и получаем обновлённые данные карточки
     api
-      .changeLikeCardStatus(card._id, !isLiked)
+      .changeLikeCardStatus(card._id, !isLiked, token)
       .then((newCard) => {
         setCards((cards) =>
           cards.map((c) => (c._id === card._id ? newCard.data : c))
@@ -133,7 +155,7 @@ function App() {
 
   function handleCardDelete(card) {
     api
-      .removeCard(card._id)
+      .removeCard(card._id, token)
       .then(() => {
         setCards((cards) => cards.filter((c) => c._id !== card._id));
       })
@@ -144,7 +166,7 @@ function App() {
 
   function handleAddPlace({ name, link }) {
     api
-      .addCard({ name, link })
+      .addCard({ name, link }, token)
       .then((newCard) => {
         setCards([newCard.data, ...cards]);
         closeAllPopups();
@@ -178,7 +200,7 @@ function App() {
   
   useEffect(() => {
     checkToken();
-  }, []);
+  }, [history, loggedIn]);
 
   return (
     <CurrentUserContext.Provider value={currentUser}>

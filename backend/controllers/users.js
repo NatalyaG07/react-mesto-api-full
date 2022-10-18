@@ -1,12 +1,10 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-// const crypto = require('crypto');
 const User = require('../models/user');
 const NotFoundError = require('../errors/not-found-err');
 const DataError = require('../errors/data-err');
 const ConflictError = require('../errors/conflict-error');
 
-// const JWT_SECRET = crypto.randomBytes(16).toString('hex');
 const { NODE_ENV, JWT_SECRET } = process.env;
 
 module.exports.getUsers = (req, res, next) => {
@@ -106,10 +104,12 @@ module.exports.login = (req, res, next) => { // контроллер аутен�
         NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret',
       );
 
-      res.cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-      });
+      // res.cookie('jwt', token, {
+      //   maxAge: 3600000 * 24 * 7,
+      //   httpOnly: true,
+      //   secure: true,
+      //   sameSite: 'none',
+      // });
       res.send({
         token,
         name: user.name,
